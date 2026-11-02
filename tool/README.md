@@ -63,7 +63,7 @@ de l'ordre de quelques centimes. À surveiller si on scanne un parc entier.
   déjà fourni. Elle n'est pas une source de vérité, c'est un rédacteur.
 - Pas de données sensibles stockées : le script ne lit que le `.nessus` fourni.
 
-## Pourquoi ce projet (pour l'entretien / LinkedIn)
+## Pourquoi ce projet
 
 Il montre la suite logique d'un scan : passer d'une liste brute de 72 lignes
 Nessus à un rapport lisible et priorisé, et automatiser la partie rédaction.
