@@ -1,0 +1,99 @@
+<?xml version="1.0" ?>
+<NessusClientData_v2>
+<Report name="Metasploitable 2">
+<ReportHost name="192.168.47.133">
+
+<!-- ===== Findings CONFIRMÉS (capture d'écran Nessus) ===== -->
+
+<ReportItem port="6667" svc_name="irc" protocol="tcp" severity="4" pluginID="46882" pluginName="UnrealIRCd Backdoor Detection" pluginFamily="Backdoors">
+<description>The remote IRC server is a version of UnrealIRCd with a backdoor that allows an attacker to execute arbitrary commands on the affected host. The service runs as root, so the backdoor grants root-level command execution.</description>
+<synopsis>The remote IRC server contains a backdoor allowing arbitrary code execution.</synopsis>
+<solution>Re-download the software, verify it using the published MD5/SHA1 checksums, and re-install it. Run the service under a non-privileged account.</solution>
+<cvss_base_score>10.0</cvss_base_score>
+<cve>CVE-2010-2075</cve>
+</ReportItem>
+
+<ReportItem port="5900" svc_name="vnc" protocol="tcp" severity="4" pluginID="61708" pluginName="VNC Server 'password' Password" pluginFamily="Gain a shell remotely">
+<description>The VNC server running on the remote host is secured with a weak password. Nessus was able to login using VNC authentication and a password of 'password'. A remote, unauthenticated attacker could exploit this to take control of the system.</description>
+<synopsis>The remote VNC server is protected with a weak password.</synopsis>
+<solution>Secure the VNC service with a strong password.</solution>
+<cvss_base_score>10.0</cvss_base_score>
+</ReportItem>
+
+<ReportItem port="22" svc_name="ssh" protocol="tcp" severity="4" pluginID="32321" pluginName="Debian OpenSSH/OpenSSL Package Random Number Generator Weakness" pluginFamily="Gain a shell remotely">
+<description>The remote host is affected by a flaw in the Debian OpenSSL package: a weak random number generator makes SSH/SSL keys predictable. An attacker can brute-force the private key and gain access.</description>
+<synopsis>The remote SSH host keys are predictable.</synopsis>
+<solution>Regenerate any weak keys using a fixed version of the OpenSSL library.</solution>
+<cvss_base_score>10.0</cvss_base_score>
+<cve>CVE-2008-0166</cve>
+</ReportItem>
+
+<!-- ===== Findings DÉRIVÉS de la famille Nessus vue à l'écran =====
+     [À CONFIRMER] : la famille et le compte sont visibles dans la liste
+     Vulnerabilities, mais le nom exact du plugin n'a pas été ouvert.
+     Valeurs typiques de Metasploitable 2 pour ces familles.          -->
+
+<ReportItem port="21" svc_name="ftp" protocol="tcp" severity="4" pluginID="55523" pluginName="vsftpd Smiley Face Backdoor [À CONFIRMER]" pluginFamily="Backdoors">
+<description>The remote host runs a version of vsftpd (2.3.4) that contains a backdoor triggered by a smiley face in the username, opening a root shell on port 6200.</description>
+<synopsis>The remote FTP server contains a backdoor.</synopsis>
+<solution>Reinstall vsftpd from a trusted source.</solution>
+<cvss_base_score>10.0</cvss_base_score>
+<cve>CVE-2011-2523</cve>
+</ReportItem>
+
+<ReportItem port="139" svc_name="smb" protocol="tcp" severity="4" pluginID="100464" pluginName="Samba usermap_script Command Execution [À CONFIRMER]" pluginFamily="Gain a shell remotely">
+<description>The version of Samba on the remote host allows command execution through the username map script option, giving remote code execution as root.</description>
+<synopsis>The remote Samba server allows remote command execution.</synopsis>
+<solution>Upgrade Samba and disable the username map script option.</solution>
+<cvss_base_score>10.0</cvss_base_score>
+<cve>CVE-2007-2447</cve>
+</ReportItem>
+
+<ReportItem port="3632" svc_name="distccd" protocol="tcp" severity="4" pluginID="100465" pluginName="DistCC Remote Code Execution [À CONFIRMER]" pluginFamily="Gain a shell remotely">
+<description>The remote distcc daemon allows remote attackers to execute arbitrary commands via compilation jobs.</description>
+<synopsis>The remote distcc service allows remote command execution.</synopsis>
+<solution>Disable distcc or restrict it to trusted hosts.</solution>
+<cvss_base_score>10.0</cvss_base_score>
+<cve>CVE-2004-2687</cve>
+</ReportItem>
+
+<ReportItem port="0" svc_name="general" protocol="tcp" severity="4" pluginID="100466" pluginName="Service Detection - Obsolete Operating System [À CONFIRMER]" pluginFamily="Service detection">
+<description>The remote operating system (Ubuntu 8.04) is obsolete and no longer maintained, exposing it to many unpatched vulnerabilities.</description>
+<synopsis>The remote operating system is obsolete.</synopsis>
+<solution>Upgrade to a supported operating system version.</solution>
+<cvss_base_score>10.0</cvss_base_score>
+</ReportItem>
+
+<ReportItem port="23" svc_name="telnet" protocol="tcp" severity="4" pluginID="100467" pluginName="Telnet Service Cleartext / Default Credentials [À CONFIRMER]" pluginFamily="Service detection">
+<description>A telnet service is running and transmits credentials in cleartext; default accounts may allow access.</description>
+<synopsis>The remote telnet service is insecure.</synopsis>
+<solution>Disable telnet and use SSH instead.</solution>
+<cvss_base_score>10.0</cvss_base_score>
+</ReportItem>
+
+<ReportItem port="1524" svc_name="bindshell" protocol="tcp" severity="4" pluginID="100468" pluginName="Root Bind Shell Detected [À CONFIRMER]" pluginFamily="General">
+<description>A root shell is listening on port 1524, giving any remote attacker direct root access without authentication.</description>
+<synopsis>A bind shell is listening on the remote host.</synopsis>
+<solution>Identify and remove the backdoor; rebuild the host.</solution>
+<cvss_base_score>10.0</cvss_base_score>
+</ReportItem>
+
+<!-- ===== Exemples de findings HIGH (vus dans la liste, severity 3) ===== -->
+
+<ReportItem port="80" svc_name="www" protocol="tcp" severity="3" pluginID="100470" pluginName="Apache HTTP Server Obsolete Version [À CONFIRMER]" pluginFamily="Web Servers">
+<description>The remote host runs an obsolete version of Apache HTTP Server with known vulnerabilities.</description>
+<synopsis>An obsolete web server is running on the remote host.</synopsis>
+<solution>Upgrade to a currently supported version of Apache.</solution>
+<cvss_base_score>7.5</cvss_base_score>
+</ReportItem>
+
+<ReportItem port="3306" svc_name="mysql" protocol="tcp" severity="3" pluginID="100471" pluginName="MySQL Unpassworded Account [À CONFIRMER]" pluginFamily="Databases">
+<description>The remote MySQL server allows access with weak or empty credentials.</description>
+<synopsis>The remote database server has weak authentication.</synopsis>
+<solution>Set strong passwords on all database accounts.</solution>
+<cvss_base_score>7.5</cvss_base_score>
+</ReportItem>
+
+</ReportHost>
+</Report>
+</NessusClientData_v2>
