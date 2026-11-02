@@ -1,8 +1,8 @@
 # Job 04 — Analyse du scan de vulnérabilités
 
-> Support de présentation — Projet « Découverte et Exploitation de Vulnérabilités »
-> La Plateforme_ — Samet ARI
-> Cible analysée : **Metasploitable 2** — `192.168.47.133`
+**Projet :** Découverte et Exploitation de Vulnérabilités
+**Cible :** Metasploitable 2 (`192.168.47.133`)
+**Outil :** Nessus Essentials — Basic Network Scan (non authentifié)
 
 ---
 
@@ -28,12 +28,16 @@ Nessus a identifié **72 vulnérabilités uniques** sur l'hôte, réparties ains
 
 | Criticité | Nombre | Score CVSS |
 |---|---|---|
-| 🔴 **Critique** | 9 | 9.0 – 10.0 |
-| 🟠 **Élevé** (High) | 29 | 7.0 – 8.9 |
-| 🟡 **Moyen** (Medium) | 8 | 4.0 – 6.9 |
-| 🔵 **Info** | 135 | — (information, pas une faille) |
+| **Critique** | 9 | 9.0 – 10.0 |
+| **Élevé** (High) | 29 | 7.0 – 8.9 |
+| **Moyen** (Medium) | 8 | 4.0 – 6.9 |
+| **Info** | 135 | — (information, pas une faille) |
 
 Ce profil — une machine présentant **9 vulnérabilités critiques** et des dizaines de failles élevées sur un seul hôte — est caractéristique de Metasploitable 2, une distribution **volontairement vulnérable** conçue pour l'apprentissage.
+
+![Résultats du scan Nessus sur Metasploitable 2](images/nessus_vulnerabilites.png)
+
+*Figure 1 — Onglet « Vulnerabilities » de Nessus : 72 vulnérabilités, dont 9 critiques (CVSS 10.0). Détails de l'hôte : Metasploitable 2 (Linux 2.6 / Ubuntu 8.04), scan de 21 minutes, « Auth: Fail » (non authentifié).*
 
 ---
 
@@ -45,11 +49,18 @@ Exemples de failles critiques identifiées par Nessus (CVSS 10.0) :
 |---|---|---|---|
 | **UnrealIRCd Backdoor** | CVE-2010-2075 | IRC / 6667 | Backdoors |
 | **Debian OpenSSH/OpenSSL RNG Weakness** | CVE-2008-0166 | SSH / 22 | Gain a shell remotely |
+| **VNC Server 'password' Password** | — | VNC / 5900 | Gain a shell remotely |
 | **Samba (SMB/CIFS)** | — | SMB / 139, 445 | Gain a shell remotely |
 
 > **Détail notable — UnrealIRCd :** la sortie (*Output*) de Nessus indique que le service IRC tourne en tant que **`uid=0(root)`**. Une exploitation de cette porte dérobée donne donc un accès **directement root**, sans étape d'élévation de privilèges.
 
-*(Les 9 vulnérabilités critiques complètes sont à documenter par captures d'écran de l'onglet « Vulnerabilities » de Nessus.)*
+Exemple de fiche détaillée Nessus pour une vulnérabilité critique :
+
+![Fiche Nessus de la faille VNC](images/nessus_vnc_detection.png)
+
+*Figure 2 — Fiche détaillée Nessus : « VNC Server 'password' Password » (CVSS 10.0, port 5900). Nessus a réussi à se connecter au service VNC avec le mot de passe « password » — exemple d'authentification faible critique.*
+
+> *La liste complète des 9 vulnérabilités critiques est visible dans l'onglet « Vulnerabilities » de Nessus (Figure 1), en filtrant sur la sévérité « Critical ».*
 
 ---
 
@@ -59,24 +70,24 @@ Exemples de failles critiques identifiées par Nessus (CVSS 10.0) :
 
 Les failles détectées se répartissent en plusieurs grandes catégories :
 
-### 🔴 Portes dérobées (*Backdoors*)
+### Portes dérobées (*Backdoors*)
 Des services contenant un code malveillant intégré, permettant l'exécution de commandes à distance.
 - *Exemple :* UnrealIRCd (port 6667) — exécution de code en tant que root.
 
-### 🔴 Exécution de code / prise de contrôle à distance (*Remote Code Execution*)
+### Exécution de code / prise de contrôle à distance (*Remote Code Execution*)
 Failles permettant à un attaquant d'exécuter ses propres commandes ou d'obtenir un shell sur la machine, sans authentification.
 - *Famille Nessus :* « Gain a shell remotely ».
 
-### 🟠 Logiciels et services obsolètes
+### Logiciels et services obsolètes
 Des services tournant dans des versions anciennes et non corrigées, exposées à des CVE connues (serveur web Apache, Samba, OpenSSH, serveurs FTP, bases de données…).
 
-### 🟠 Faiblesses cryptographiques
+### Faiblesses cryptographiques
 Génération de clés et de certificats prévisibles, protocoles de chiffrement faibles (ex. faille du générateur de nombres aléatoires OpenSSL sous Debian).
 
-### 🟡 Authentification faible ou par défaut
-Services accessibles avec des identifiants faibles, par défaut, ou sans authentification (bases de données, services réseau, protocoles en clair comme Telnet).
+### Authentification faible ou par défaut
+Services accessibles avec des identifiants faibles, par défaut, ou sans authentification (bases de données, services réseau, protocoles en clair comme Telnet, service VNC protégé par le mot de passe « password »).
 
-### 🟡 Erreurs de configuration
+### Erreurs de configuration
 Services inutiles exposés, droits trop permissifs, partages réseau mal protégés.
 
 ---

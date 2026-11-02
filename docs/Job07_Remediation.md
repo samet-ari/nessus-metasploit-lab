@@ -1,7 +1,6 @@
 # Job 07 — Remédiation et recommandations
 
 **Projet :** Découverte et Exploitation de Vulnérabilités
-**Étudiant :** Samet ARI — La Plateforme_
 **Cible :** Metasploitable 2 (`192.168.47.133`)
 
 ---
