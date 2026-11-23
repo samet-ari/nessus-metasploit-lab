@@ -61,4 +61,4 @@ post-exploitation · remédiation · scripting Python · intégration d'API LLM.
 
 ---
 
-*Auteur : Samet ARI — Étudiant en cybersécurité, La Plateforme_ (Marseille).*
+
